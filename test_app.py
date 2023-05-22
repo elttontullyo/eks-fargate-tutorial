@@ -1,4 +1,24 @@
-from app import change
+import requests as rq
+import json
 
-def test_change():
-    assert [{5: 'quarters'}, {1: 'nickels'}, {4: 'pennies'}] == change(1.34)
+PORT = 8080
+headers = {
+'Content-Type': 'application/json',
+}
+
+def get_response(dollar):
+    json_data = {
+        'dollar': dollar,
+    }
+    try:
+        url = 'http://localhost:{}/conversion'.format(PORT)
+        resp = rq.post(headers=headers, url=url, json=json_data)
+        resul = json.loads(resp.text.replace('\n', ''))
+        return float(resul['real'])
+    except Exception as e:
+        print(e)
+        
+    
+
+def test_conversion():
+    assert 4.97 == get_response(1)

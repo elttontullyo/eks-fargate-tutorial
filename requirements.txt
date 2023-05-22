@@ -2,3 +2,4 @@ flask
 pytest
 pylint
 pytest-cov
+requests==2.17.3
